@@ -61,9 +61,9 @@ def run_script(user: str, pwd: str, download_dir: str):
         page.dblclick('tr[data-cy="data-grid-row-2"]')
 
         # 6) Download
-        download = page.expect_download(lambda: page.click(
-            '[data-cy="file-details-dialog-toolbar-download-btn"]'
-        ))
+        download_ctx = page.expect_download()
+        page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
+        download = download_ctx.value
         dest = DOWNLOADS_DIR / download.suggested_filename
         download.save_as(str(dest))
         browser.close()
