@@ -101,10 +101,10 @@ def main():
 
     try:
         out = run_script(user, pwd, args.folder)
-        print(f"✅ Downloaded to: {out}")
+        print(f"Downloaded to: {out}")
         sys.exit(0)
     except Exception as e:
-        print(f"❌ Failed: {e}", file=sys.stderr)
+        print(f"Failed: {e}", file=sys.stderr)
         sys.exit(2)
 
 if __name__ == "__main__":
