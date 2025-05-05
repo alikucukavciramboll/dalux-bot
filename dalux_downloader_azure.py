@@ -61,11 +61,16 @@ def run_script(user: str, pwd: str, download_dir: str):
         page.dblclick('tr[data-cy="data-grid-row-2"]')
 
         # 6) Download
-        download_ctx = page.expect_download()
+        page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]')
+
+        with page.expect_download() as download_info:
         page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
-        download = download_ctx.value
+
+        # After exiting the with-block, download_info.value is your Download
+        download = download_info.value
         dest = DOWNLOADS_DIR / download.suggested_filename
         download.save_as(str(dest))
+
         browser.close()
         return dest
 
