@@ -64,7 +64,7 @@ def run_script(user: str, pwd: str, download_dir: str):
         page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]')
 
         with page.expect_download() as download_info:
-        page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
+            page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
 
         # After exiting the with-block, download_info.value is your Download
         download = download_info.value
