@@ -61,12 +61,25 @@ def run_script(user: str, pwd: str, download_dir: str):
         page.dblclick('tr[data-cy="data-grid-row-2"]')
 
         # 6) Download
-        page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]', timeout=30_000)
-
+        # ensure page has fully loaded
+        page.wait_for_load_state("networkidle")
+    
+        # set longer defaults
+        page.set_default_timeout(60_000)
+        page.set_default_navigation_timeout(120_000)
+    
+        # now wait explicitly for the download button
+        try:
+            page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]')
+        except Exception:
+            page.screenshot(path="ci-fail.png", full_page=True)
+            print("❌ download button never showed — see ci-fail.png", file=sys.stderr)
+            print(page.content(), file=sys.stderr)
+            sys.exit(3)
+    
         with page.expect_download() as download_info:
             page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
-
-        # After exiting the with-block, download_info.value is your Download
+    
         download = download_info.value
         dest = DOWNLOADS_DIR / download.suggested_filename
         download.save_as(str(dest))
