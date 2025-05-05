@@ -9,10 +9,7 @@ from playwright.sync_api import sync_playwright
 # Bundle your ms-playwright folder into the EXE via PyInstaller
 if getattr(sys, "frozen", False):
     base = sys._MEIPASS
-else:
-    base = os.path.dirname(os.path.abspath(__file__))
-
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.join(base, "ms-playwright")
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.join(base, "ms-playwright")
 # —————————————————————————————————————————————————————
 
 def run_script(user: str, pwd: str, download_dir: str):
