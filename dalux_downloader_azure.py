@@ -61,7 +61,7 @@ def run_script(user: str, pwd: str, download_dir: str):
         page.dblclick('tr[data-cy="data-grid-row-2"]')
 
         # 6) Download
-        page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]')
+        page.wait_for_selector('[data-cy="file-details-dialog-toolbar-download-btn"]', timeout=30_000)
 
         with page.expect_download() as download_info:
             page.click('[data-cy="file-details-dialog-toolbar-download-btn"]')
